@@ -35,8 +35,9 @@ class OMDB:
 
         Returns:
             data (dict): Contains the movie's imdb_rating, imdb_votes,
-                box_office, metascore and rotten_tomatoes_rating.
+                and box_office.
         """
+        print("Movie: ", name, "| Year: ", year)
         data = {}
         url = "http://www.omdbapi.com/?apikey=" + self.api_key + "\
 &t=" + name + "&y=" + str(year)
@@ -44,20 +45,14 @@ class OMDB:
         omdb_info = json.loads(info.text)
         if omdb_info["Response"] == "False":
             raise ValueError("MovieNotFound")
-        data["imdb_rating"] = omdb_info["imdbRating"]
-        data["imdb_votes"] = omdb_info["imdbVotes"]
-        if omdb_info["BoxOffice"] != "N/A":
-            data["box_office"] = int(
-                omdb_info["BoxOffice"][1:].replace(",", ""))
-        else:
-            data["box_office"] = None
-        data["metascore"] = omdb_info["Metascore"]
-        for rating in omdb_info["Ratings"]:
-            if rating["Source"] == "Rotten Tomatoes":
-                data["rotten_tomatoes_rating"] = int(
-                    rating["Value"][:len(rating["Value"])-1])
-        if "rotten_tomatoes_rating" not in data:
-            data["rotten_tomatoes_rating"] = None
+        data["imdb_rating"] = float(
+            omdb_info["imdbRating"]) if omdb_info["imdbRating"] != "N/A" else 0
+        data["imdb_votes"] = int(
+            omdb_info["imdbVotes"].replace(",", "")) if (
+                omdb_info["imdbVotes"] != "N/A") else 0
+        data["box_office"] = (
+            int(omdb_info["BoxOffice"][1:].replace(",", "")) if (
+                omdb_info["BoxOffice"] != "N/A") else 0)
         return data
 
 

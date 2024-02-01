@@ -50,11 +50,12 @@ def get_omdb_info(all_movies_df: DataFrame) -> DataFrame:
 def process_movies(filename: str) -> (DataFrame, DataFrame):
     """ If the metadata file 'nominees_with_metadata_by_year.csv' doesn't
     exist, it loads the movie nominees dataset, looks up additional data from
-    OMDB, and returns two DataFrames, one with previous years oscars nominees
-    and another with this year's nominees.
+    OMDB, filters out movies with zero values, and returns two DataFrames:
+    one with previous years oscars nominees, and another with this year's
+    nominees.
 
     If the metadata file 'nominees_with_metadata_by_year.csv' already exists,
-    the addiontal data from OMDB lookup step is skipped.
+    the step to look up addiontal data from OMDB is skipped.
 
     Args:
         filename (str): The name of the csv file containing the movie info.
@@ -71,6 +72,14 @@ def process_movies(filename: str) -> (DataFrame, DataFrame):
         all_movies_df = pl.read_csv("data/nominees_by_year.csv")
         all_movies_df = get_omdb_info(all_movies_df)
         all_movies_df.write_csv(filename)
+
+    # Filter out movies with zero values.
+    all_movies_df = all_movies_df.filter(
+        pl.col("imdb_rating") > 0
+    ).filter(
+        pl.col("box_office") > 0
+    )
+
     new_nominees_df = all_movies_df.filter(
         pl.col("Won") == "Null"
     )
