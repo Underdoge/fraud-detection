@@ -8,8 +8,6 @@ from sklearn.pipeline import FeatureUnion, Pipeline
 from sklearn.preprocessing import RobustScaler
 from sklearn.svm import SVC
 
-from util.omdb_api import process_movies
-
 
 def build_pipeline() -> Pipeline:
     """ Creates feature engineering and training pipeline.
