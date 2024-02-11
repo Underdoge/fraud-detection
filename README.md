@@ -37,3 +37,8 @@ python import_mlflow_model.py
 ```sh
 bentoml models list
 ```
+### Launch bentoml service
+```sh
+cd service
+bentoml serve service.py --reload
+``` 

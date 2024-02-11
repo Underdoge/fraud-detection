@@ -14,7 +14,5 @@ fraud_detection_service = bentoml.Service("fraud-detection-service", runners=[fr
 @fraud_detection_service.api(input=PandasDataFrame(), output=NumpyNdarray())
 def predict(input_df):
     """ Function to predict on new values that the API receives. """
-    # Necesitamos convertir `children` a `np.float64` manualmente debido a las peculiaridades de la serialización JSON
-    input_df["children"] = input_df["children"].astype(np.float64)
 
     return fraud_detection_model_runner.run(input_df)
