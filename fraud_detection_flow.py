@@ -51,7 +51,7 @@ dataset to use for training", default=0.6)
             )
         )
         self.new_data_df = new_data_df
-        self.next()
+        self.next(self.split_dataset)
 
     @step
     def split_dataset(self):

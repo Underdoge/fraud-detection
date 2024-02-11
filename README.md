@@ -7,7 +7,7 @@ Open up a Terminal (macOS/Linux) or PowerShell (Windows) and enter the following
 ```sh
 git clone https://github.com/underdoge/proyecto-final-bcml
 
-cd proyect-final-bcml
+cd proyecto-final-bcml
 ```
 ### Creating the virtual environment
 ```sh
@@ -19,7 +19,7 @@ source .venv/bin/activate
 ```
 ### Installing on macOS / Linux
 ```sh
-pip install -r requirements_macos_linux.txt
+pip install -r requirements.txt
 ```
 ### How to run metaflow pipeline
 ```sh
