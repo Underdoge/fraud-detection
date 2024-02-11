@@ -21,7 +21,19 @@ source .venv/bin/activate
 ```sh
 pip install -r requirements.txt
 ```
-### How to run metaflow pipeline
+### Launching the mlflow server
 ```sh
-python3 fraud_detection_flow.py run --source-file data/credit_card_transactions-ibm_v2.csv
+mlflow server
+```
+### Running the metaflow pipeline (requires mlflow server running)
+```sh
+python fraud_detection_flow.py run --source-file data/credit_card_transactions-ibm_v2.csv
+```
+### Import mlflow model into bentoml
+```sh
+python import_mlflow_model.py
+```
+### Verify model was successfully imported in bentoml
+```sh
+bentoml models list
 ```
