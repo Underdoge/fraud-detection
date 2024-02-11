@@ -42,3 +42,19 @@ bentoml models list
 cd service
 bentoml serve service.py --reload
 ``` 
+### Build Bento
+```sh
+bentoml build
+```
+### List created Bentos
+```sh
+bentoml list
+```
+### Create Docker image from Bento (requires Docker)
+```sh
+bentoml containerize <model tag from previous step e.g. fraud-detection-service:worn7ggjg2q63yqs>
+```
+### Run model from Docker image (requires Docker)
+```sh
+docker run -p 3000:3000 <model tag from previous step e.g. fraud-detection-service:worn7ggjg2q63yqs>
+```

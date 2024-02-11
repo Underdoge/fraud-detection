@@ -1,0 +1,7 @@
+service: "service:fraud_detection_service"
+include:
+  - "*.py"
+python:
+  packages:
+    - "scikit-learn"
+    - "pandas"
