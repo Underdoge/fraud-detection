@@ -25,7 +25,7 @@ def build_pipeline():
     mlflow.log_param("target_encoded_columns", columns_to_encode)
     encoder_params = internal_target_encoding.get_params()
     mlflow.log_params(
-        {f"encoder__{key}": value for key, value in encoder_params.items()})
+        {f"target_encoder__{key}": value for key, value in encoder_params.items()})
 
     target_encoding = ColumnTransformer([
         (

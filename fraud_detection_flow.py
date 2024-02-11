@@ -23,7 +23,7 @@ dataset to use for training", default=0.6)
         run = mlflow.start_run()
         self.mlflow_run_id = run.info.run_id
 
-        print("Initializing Pipeline.")
+        print("Initializing...")
         self.next(self.load_data)
 
     @step
@@ -35,19 +35,20 @@ dataset to use for training", default=0.6)
         mlflow.set_tracking_uri("http://127.0.0.1:5000")
         with mlflow.start_run(run_id=self.mlflow_run_id):
 
+            print("Loading dataset...")
             self.new_data_df = pl.read_csv(self.source_file)
         self.next(self.preprocess_dataset)
 
     @step
     def preprocess_dataset(self):
-        """ Preprocess dataset. """
+        """ Pre-process dataset. """
         import mlflow
         import polars as pl
 
         mlflow.set_tracking_uri("http://127.0.0.1:5000")
         with mlflow.start_run(run_id=self.mlflow_run_id):
 
-            print("Preprocessing Dataset.")
+            print("Pre-processing dataset...")
             new_data_df = self.new_data_df.with_columns(
                 Hour = pl.col("Time").map_elements(
                     lambda x: x[:2]).cast(pl.Int64, strict=True),
@@ -80,7 +81,7 @@ dataset to use for training", default=0.6)
         mlflow.set_tracking_uri("http://127.0.0.1:5000")
         with mlflow.start_run(run_id=self.mlflow_run_id):
 
-            print("Splitting dataset.")
+            print("Splitting dataset...")
             data_df = self.new_data_df.with_columns(
                 pl.col("Use Chip").cast(pl.Categorical).to_physical()
             ).with_columns(
@@ -137,6 +138,7 @@ dataset to use for training", default=0.6)
         mlflow.set_tracking_uri("http://127.0.0.1:5000")
         with mlflow.start_run(run_id=self.mlflow_run_id):
 
+            print("Training model...")
             self.training_pipeline = build_pipeline()
             sm = SMOTE(random_state=0)
 
@@ -161,10 +163,11 @@ dataset to use for training", default=0.6)
         mlflow.set_tracking_uri("http://127.0.0.1:5000")
         with mlflow.start_run(run_id=self.mlflow_run_id):
 
+            print("Validating model..")
             validate_x_res, validate_y_res = self.sm.fit_resample(
-                self.train_x.to_pandas(), self.train_y.to_pandas())
+                self.validate_x.to_pandas(), self.validate_y.to_pandas())
             test_x_res, test_y_res = self.sm.fit_resample(
-                self.train_x.to_pandas(), self.train_y.to_pandas())
+                self.test_x.to_pandas(), self.test_y.to_pandas())
 
             train_pred_y = self.training_pipeline.predict(self.train_x_res)
             validate_pred_y = self.training_pipeline.predict(validate_x_res)
@@ -183,8 +186,8 @@ dataset to use for training", default=0.6)
             test_recall = recall_score(test_pred_y,
                                        test_y_res.to_numpy().ravel())
 
-            print("Train accuracy:", train_accuracy)
-            print("Train recall:", train_recall)
+            print("Training accuracy:", train_accuracy)
+            print("Training recall:", train_recall)
             print("Validate accuracy:", validate_accuracy)
             print("Validate recall:", validate_recall)
             print("Test accuracy:", test_accuracy)
@@ -208,6 +211,7 @@ dataset to use for training", default=0.6)
         import mlflow
         mlflow.set_tracking_uri("http://127.0.0.1:5000")
         with mlflow.start_run(run_id=self.mlflow_run_id):
+            print("Registering model...")
             mlflow.sklearn.log_model(self.training_pipeline,
                                      "fraud-detection-model")
             mlflow.register_model(
