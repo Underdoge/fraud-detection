@@ -22,7 +22,7 @@ def build_pipeline():
         "Use Chip"
     ]
 
-    mlflow.log_params("target_encoded_columns", columns_to_encode)
+    mlflow.log_param("target_encoded_columns", columns_to_encode)
     encoder_params = internal_target_encoding.get_params()
     mlflow.log_params(
         {f"encoder__{key}": value for key, value in encoder_params.items()})
@@ -39,7 +39,7 @@ def build_pipeline():
     internal_scaler = RobustScaler()
     columns_to_scale = ["Amount"]
 
-    mlflow.log_params("scaled_columns", columns_to_scale)
+    mlflow.log_param("scaled_columns", columns_to_scale)
     scaler_params = internal_scaler.get_params()
     mlflow.log_params(
         {f"scaler__{key}": value for key, value in scaler_params.items()})

@@ -36,7 +36,7 @@ dataset to use for training", default=0.6)
         with mlflow.start_run(run_id=self.mlflow_run_id):
 
             self.new_data_df = pl.read_csv(self.source_file)
-            self.next(self.preprocess_dataset)
+        self.next(self.preprocess_dataset)
 
     @step
     def preprocess_dataset(self):
@@ -68,7 +68,7 @@ dataset to use for training", default=0.6)
                 )
             )
             self.new_data_df = new_data_df
-            self.next(self.split_dataset)
+        self.next(self.split_dataset)
 
     @step
     def split_dataset(self):
@@ -101,7 +101,7 @@ dataset to use for training", default=0.6)
             original_count = len(data_df)
             training_size = int(original_count * self.train_proportion)
             test_size = int(
-                (1 - self.train_proportion) * self.test_proportion * training_size)
+                (1 - self.train_proportion)*self.test_proportion*training_size)
 
             train_x, rest_x, train_y, rest_y = train_test_split(features,
                                                                 is_fraud,
@@ -125,7 +125,7 @@ dataset to use for training", default=0.6)
             self.validate_y = validate_y
             self.test_x = test_x
             self.test_y = test_y
-            self.next(self.model_training)
+        self.next(self.model_training)
 
     @step
     def model_training(self):
@@ -146,8 +146,9 @@ dataset to use for training", default=0.6)
             self.sm = sm
             self.train_x_res = train_x_res
             self.train_y_res = train_y_res
-            self.training_pipeline.fit(train_x_res, train_y_res.to_numpy().ravel())
-            self.next(self.model_validation)
+            self.training_pipeline.fit(train_x_res,
+                                       train_y_res.to_numpy().ravel())
+        self.next(self.model_validation)
 
     @step
     def model_validation(self):
@@ -179,7 +180,8 @@ dataset to use for training", default=0.6)
                                         validate_y_res.to_numpy().ravel())
             test_accuracy = accuracy_score(test_pred_y,
                                         test_y_res.to_numpy().ravel())
-            test_recall = recall_score(test_pred_y, test_y_res.to_numpy().ravel())
+            test_recall = recall_score(test_pred_y,
+                                       test_y_res.to_numpy().ravel())
 
             print("Train accuracy:", train_accuracy)
             print("Train recall:", train_recall)
@@ -198,7 +200,7 @@ dataset to use for training", default=0.6)
             }
             mlflow.log_metrics(metrics)
 
-            self.next(self.register_model)
+        self.next(self.register_model)
 
     @step
     def register_model(self):
@@ -212,7 +214,7 @@ dataset to use for training", default=0.6)
                 f"runs:/{self.mlflow_run_id}/fraud-detection-model",
                 "fraud-detection-model"
             )
-            self.next(self.end)
+        self.next(self.end)
 
     @step
     def end(self):
