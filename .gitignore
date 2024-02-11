@@ -162,3 +162,6 @@ cython_debug/
 config.json
 data/*
 .DS_Store
+.metaflow
+mlruns
+mlartifacts
