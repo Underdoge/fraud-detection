@@ -1,13 +1,13 @@
-# Proyecto Final para el Bootcamp de Machine Learning de Codigo Facilito 2023
-
+# Fraud Detection 🔎
+## Final Project for the Código Facilito's 2023 Machine Learning Bootcamp
 
 # Installation
-Open up a Terminal (macOS/Linux) or PowerShell (Windows) and enter the following commands:
+Open up a Terminal and enter the following commands:
 ### Cloning the repository
 ```sh
-git clone https://github.com/underdoge/proyecto-final-bcml
+git clone https://github.com/underdoge/fraud-detection
 
-cd proyecto-final-bcml
+cd fraud-detection
 ```
 ### Creating the virtual environment
 ```sh
@@ -58,3 +58,10 @@ bentoml containerize <model tag from previous step e.g. fraud-detection-service:
 ```sh
 docker run -p 3000:3000 <model tag from previous step e.g. fraud-detection-service:worn7ggjg2q63yqs>
 ```
+# Requirements
+- Python 3.11.6 or greater
+- Git (to clone the repo)
+- Docker (to create Docker image)
+#
+# Dataset Sources
+- [Credit Card Transactions Kaggle Dataset](https://www.kaggle.com/datasets/ealtman2019/credit-card-transactions)
