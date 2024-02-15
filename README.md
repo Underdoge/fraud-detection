@@ -1,7 +1,7 @@
 # Fraud Detection 🔎
 ## Final Project for the Código Facilito's 2023 Machine Learning Bootcamp
 # Hosted Streamlit App
-A hosted version of the model can be found on Streamlit [here](https://underdoge-fraud-detection.streamlit.app).
+A hosted version of the model can be found on Streamlit [here](https://fraud-detection-underdoge.streamlit.app).
 #
 # Installation
 Open up a Terminal and enter the following commands:
