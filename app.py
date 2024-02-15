@@ -19,7 +19,7 @@ st.markdown(
 
 Welcome to our fraud detection app!
 
-Below you will find two ways of testing our fraud detection model.
+Below you will find two ways to test our fraud detection model.
 
 ## Manual transaction check
 
