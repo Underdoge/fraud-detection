@@ -92,8 +92,8 @@ else:
         ).to_series().to_list()
         city = st.selectbox("Cities", cities, index=0,
                             placeholder="City where the transaction was made.")
-        zip = st.number_input("Zip Code", value=91750, format="%d", min_value=1,
-                      max_value=99_999)
+        zip = st.number_input("Zip Code", value=91750, format="%d",
+                              min_value=1, max_value=99_999)
         state = state_code
     else:
         states = states_df.filter(
@@ -116,7 +116,7 @@ else:
             ).to_series().to_list()
             if len(cities) > 0:
                 city = st.selectbox("Cities", cities, index=0,
-                                placeholder="City where the transaction was made.")
+                            placeholder="City where the transaction was made.")
             else:
                 city = state
         else:
@@ -148,7 +148,8 @@ data_df = pl.DataFrame({"Card": 1,
 
 st.markdown(
     """
-Press the "Verify Transaction" button to check if the transaction is legitimate:
+Press the "Verify Transaction" button to check if the transaction is\
+ legitimate:
 """
 )
 
@@ -167,7 +168,9 @@ st.markdown(
 ## Batch transaction check
 
 Here you can upload a CSV file with multiple transactions.
-Click [here](http://www.google.com) to download a sample template file.
+Click [here](https://raw.githubusercontent.com/Underdoge/\
+fraud-detection/main/app_data/test_data.csv) to download a sample
+template file.
 """
 )
 
@@ -180,5 +183,3 @@ if uploaded_file is not None:
     st.markdown("Here's the original CSV file with a new\
  'Predicted_Is_Fraud?' column with the prediction for each transaction:")
     st.dataframe(final_data_df)
-
-
